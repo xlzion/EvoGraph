@@ -1,0 +1,48 @@
+# EvoGraph-PLM Configuration File
+
+# --- Evolutionary Algorithm Parameters ---
+ea:
+  population_size: 100
+  num_generations: 50
+  tournament_size: 5
+  crossover_rate: 0.8
+  mutation_rate: 0.2
+
+# --- Fitness Function Weights ---
+# Weights must sum to 1.0
+fitness_weights:
+  w_seq: 0.2
+  w_struct: 0.3
+  w_gnn: 0.5
+
+# --- Model Paths and Settings ---
+models:
+  # Protein Language Model settings
+  plm:
+    generator_model: "nferruz/ProtGPT2"
+    #evaluator_model: "facebook/esm3_t33_650M_UR50D"
+    #mutation_model: "facebook/esm3_t33_650M_UR50D"
+    evaluator_model: "esm3_sm_open_v1"
+    mutation_model: "esm3_sm_open_v1"
+  
+  # Structure Prediction Model (ESMFold is loaded via esm library)
+  structure:
+    model_name: "ESMFold"
+
+  # Graph Neural Network Oracle
+  gnn:
+    # Path to the pre-trained GNN oracle model checkpoint
+    oracle_path: "./models/gnn_oracle_pretrained.pth"
+    graph_cutoff: 18.0 # Angstroms
+
+# --- Initial Population Generation ---
+initial_population:
+  prompt: "A de novo designed PETase"
+  max_length: 3000
+  min_length: 100
+
+# --- Output and Logging ---
+output:
+  log_file: "evograph_plm_run.log"
+  results_dir: "./results2"
+  save_interval: 5 # Save best individual every N generations
